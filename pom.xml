@@ -3,7 +3,7 @@
 
 	<groupId>es.gerardribas</groupId>
 	<artifactId>appendwar-maven-plugin</artifactId>
-	<version>1.0.0-RELEASE</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>appendwar-maven-plugin Maven Plugin</name>
@@ -166,7 +166,7 @@
 		<connection>scm:git:git@github.com:GerardRibas/appendwar-maven-plugin.git</connection>
 		<developerConnection>scm:git:git@github.com:GerardRibas/appendwar-maven-plugin.git</developerConnection>
 		<url>http://github.com/GerardRibas/appendwar-maven-plugin</url>
-		<tag>appendwar-maven-plugin-1.0.0-RELEASE</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>
