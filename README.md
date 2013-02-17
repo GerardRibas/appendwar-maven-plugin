@@ -54,6 +54,8 @@ If you want to add the plugin in the maven lifecyle it´s possible wiht the exec
 
 And now the appendwar plugin will be fired in Package phase.
 
+    mvn package
+
 Default configuration
 ---------------------
 
