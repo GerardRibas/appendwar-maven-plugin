@@ -1,0 +1,189 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>es.gerardribas</groupId>
+	<artifactId>appendwar-maven-plugin</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>maven-plugin</packaging>
+
+	<name>appendwar-maven-plugin Maven Plugin</name>
+
+	<!-- FIXME change it to the project's website -->
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<java.version>1.6</java.version>
+		<encoding>UTF-8</encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven-plugin-api.version>3.0.4</maven-plugin-api.version>
+		<maven-plugin-annotations.version>3.2</maven-plugin-annotations.version>
+		<plexus-utils.version>3.0.8</plexus-utils.version>
+		<junit.version>4.11</junit.version>
+		<truezip.version>7.7.1</truezip.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>${maven-plugin-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>${maven-plugin-annotations.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>${plexus-utils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.schlichtherle.truezip</groupId>
+			<artifactId>truezip-driver-zip</artifactId>
+			<version>${truezip.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.schlichtherle.truezip</groupId>
+			<artifactId>truezip-file</artifactId>
+			<version>${truezip.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${encoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<goalPrefix>appendwar-maven-plugin</goalPrefix>
+					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+				</configuration>
+				<executions>
+					<execution>
+						<id>mojo-descriptor</id>
+						<goals>
+							<goal>descriptor</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>help-goal</id>
+						<goals>
+							<goal>helpmojo</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+		</plugins>
+		<extensions>
+			<!-- Extension required to deploy a snapshot or a release to the CloudBees 
+				remote maven repository using Webdav -->
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
+	</build>
+	<profiles>
+		<profile>
+			<id>run-its</id>
+			<build>
+
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-invoker-plugin</artifactId>
+						<version>1.7</version>
+						<configuration>
+							<debug>true</debug>
+							<cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+							<pomIncludes>
+								<pomInclude>*/pom.xml</pomInclude>
+							</pomIncludes>
+							<postBuildHookScript>verify</postBuildHookScript>
+							<localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+							<settingsFile>src/it/settings.xml</settingsFile>
+							<goals>
+								<goal>clean</goal>
+								<goal>test-compile</goal>
+							</goals>
+						</configuration>
+						<executions>
+							<execution>
+								<id>integration-test</id>
+								<goals>
+									<goal>install</goal>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+		<!-- REPOSITORY FOR GERARDRIBAS DEPENDENCIES -->
+	<repositories>
+		<repository>
+			<id>cloudbees-public-release-repository</id>
+			<name>Gerard Ribas Releases</name>
+			<url>http://repository-gribas.forge.cloudbees.com/release/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/GerardRibas/appendwar-maven-plugin/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:git@github.com:GerardRibas/appendwar-maven-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:GerardRibas/appendwar-maven-plugin.git</developerConnection>
+		<url>http://github.com/GerardRibas/appendwar-maven-plugin</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<!-- Project available for all users in my public repository. Thanks to 
+			cloudbees. -->
+		<repository>
+			<id>cloudbees-public-release-repository</id>
+			<name>Gerard Ribas Releases</name>
+			<url>dav:https://repository-gribas.forge.cloudbees.com/release/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>cloudbees-public-snapshot-repository</id>
+			<name>Gerard Ribas Snapshots</name>
+			<url>dav:https://repository-gribas.forge.cloudbees.com/snapshot/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
