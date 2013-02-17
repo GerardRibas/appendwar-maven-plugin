@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,6 +42,8 @@ public class WebXmlAppenderMojoTestCase {
 		result.setOutputDirectory(war.getParent());
 		result.setParentWebXml(parentWebXml);
 		result.setWarName("example-war-0.0.1-SNAPSHOT");
+		result.setDeleteParentInWar(false);
+		result.setIncludeInWar(false);
 		result.setWebxml(webXml);
 		return result;
 	};
@@ -51,6 +52,7 @@ public class WebXmlAppenderMojoTestCase {
 	public void testAppendXml() throws MojoExecutionException, FileNotFoundException, IOException {
 		WebXmlAppenderMojo mojo = getWebXmlAppenderMojo();
 		mojo.setIncludeInWar(true);
+		mojo.setDeleteParentInWar(true);
 		mojo.execute();
 		
 		TFile file = new TFile(war.getAbsoluteFile() + "/WEB-INF/web.xml");

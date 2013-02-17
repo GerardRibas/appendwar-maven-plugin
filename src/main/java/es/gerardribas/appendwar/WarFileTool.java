@@ -15,7 +15,7 @@ import de.schlichtherle.truezip.file.TFile;
  * @author Gerard
  * 
  */
-public class WarFileTool {
+public final class WarFileTool {
 
 	private static WarFileTool instance;
 	

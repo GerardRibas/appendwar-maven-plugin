@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * @author Gerard
  * 
  */
-public class WebXmlAppenderTool {
+public final class WebXmlAppenderTool {
 
 	private static WebXmlAppenderTool instance;
 

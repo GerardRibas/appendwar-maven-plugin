@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.codehaus.plexus.util.StringUtils;
 
 @Mojo( name = "webxml", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )
 public class WebXmlAppenderMojo extends AbstractMojo {
@@ -67,14 +68,17 @@ public class WebXmlAppenderMojo extends AbstractMojo {
 
 	protected static File getTargetFile(File basedir, String finalName,
 			String classifier, String type) {
-		if (classifier == null) {
-			classifier = "";
-		} else if (classifier.trim().length() > 0
-				&& !classifier.startsWith("-")) {
-			classifier = "-" + classifier;
+		String insideClassifier = null;
+		if(StringUtils.isEmpty(classifier)){
+			insideClassifier = "";
+		} else {
+			insideClassifier = classifier;
 		}
-
-		return new File(basedir, finalName + classifier + "." + type);
+		 if (insideClassifier.trim().length() > 0
+				&& !insideClassifier.startsWith("-")) {
+			insideClassifier = "-" + insideClassifier;
+		}
+		return new File(basedir, finalName + insideClassifier + "." + type);
 	}
 
 	protected File getTargetWarFile() {
